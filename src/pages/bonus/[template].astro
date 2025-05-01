@@ -6,7 +6,9 @@ export function getStaticPaths() {
   return [
     { params: { template: 'template1' }, props: { templateName: 'template1' } },
     { params: { template: 'template2' }, props: { templateName: 'template2' } },
-    { params: { template: 'template3' }, props: { templateName: 'template3' } }
+    { params: { template: 'template3' }, props: { templateName: 'template3' } },
+    { params: { template: 'template4' }, props: { templateName: 'template4' } },
+    { params: { template: 'template5' }, props: { templateName: 'template5' } }
   ];
 }
 
@@ -82,6 +84,49 @@ if (template === 'template1') {
       title: 'Extended Warranty',
       description: 'Get an additional 6 months of warranty coverage on your purchase.',
       value: '$49'
+    }
+  ];
+} else if (template === 'template4') {
+  // Digital Download Bonus
+  bonuses = [
+    {
+      title: 'Companion Workbook',
+      description: 'A comprehensive workbook to help you implement what you learn from the main product.',
+      value: '$47'
+    },
+    {
+      title: 'Audio Version',
+      description: 'Get the complete audio version so you can learn on the go.',
+      value: '$29'
+    },
+    {
+      title: 'Resource Collection',
+      description: 'A curated collection of tools, templates, and resources to enhance your experience.',
+      value: '$67'
+    }
+  ];
+} else if (template === 'template5') {
+  // Membership Site Bonus
+  bonuses = [
+    {
+      title: 'VIP Access',
+      description: 'Get exclusive access to premium content not available to regular members.',
+      value: '$97/month'
+    },
+    {
+      title: 'Monthly Q&A Calls',
+      description: 'Join our monthly group coaching calls to get your questions answered.',
+      value: '$197/month'
+    },
+    {
+      title: 'Done-For-You Templates',
+      description: 'Save time with our library of ready-to-use templates and resources.',
+      value: '$147'
+    },
+    {
+      title: 'Priority Support',
+      description: 'Get your questions answered within 24 hours with our priority support channel.',
+      value: '$97/month'
     }
   ];
 }

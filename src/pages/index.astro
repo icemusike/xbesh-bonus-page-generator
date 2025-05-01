@@ -14,7 +14,7 @@ import BonusPageGenerator from '../components/BonusPageGenerator';
 		margin: auto;
 		padding: 1rem;
 		width: 100%;
-		max-width: 1000px;
+		max-width: 1200px;
 		color: #333;
 		font-size: 16px;
 		line-height: 1.6;
@@ -23,22 +23,35 @@ import BonusPageGenerator from '../components/BonusPageGenerator';
 	/* Generator Styles */
 	:global(.generator-container) {
 		background-color: white;
-		border-radius: 8px;
+		border-radius: 12px;
 		padding: 2rem;
-		box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+		box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 	}
 
-	:global(.generator-container h1) {
-		color: #ff5722;
-		font-size: 2rem;
-		margin-bottom: 1rem;
+	:global(.generator-header) {
 		text-align: center;
+		margin-bottom: 2.5rem;
+	}
+
+	:global(.generator-header h1) {
+		color: #2563eb;
+		font-size: 2.2rem;
+		margin-bottom: 0.5rem;
+		font-weight: 700;
 	}
 
 	:global(.intro) {
-		text-align: center;
+		color: #64748b;
+		font-size: 1.1rem;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	:global(.form-columns) {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
 		margin-bottom: 2rem;
-		color: #666;
 	}
 
 	:global(.form-group) {
@@ -46,56 +59,144 @@ import BonusPageGenerator from '../components/BonusPageGenerator';
 	}
 
 	:global(label) {
-		display: block;
+		display: flex;
+		align-items: center;
 		margin-bottom: 0.5rem;
 		font-weight: 600;
+		color: #334155;
+	}
+
+	:global(.label-text) {
+		margin-right: 0.25rem;
+	}
+
+	:global(.required) {
+		color: #ef4444;
+		font-size: 1.2rem;
+		line-height: 1;
 	}
 
 	:global(.form-control) {
 		width: 100%;
-		padding: 0.75rem;
-		border: 1px solid #ddd;
-		border-radius: 4px;
+		padding: 0.75rem 1rem;
+		border: 1px solid #e2e8f0;
+		border-radius: 8px;
 		font-size: 1rem;
+		transition: all 0.2s ease;
+		background-color: #f8fafc;
+	}
+
+	:global(.form-control:focus) {
+		outline: none;
+		border-color: #3b82f6;
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+		background-color: #fff;
+	}
+
+	:global(.help-text) {
+		font-size: 0.85rem;
+		color: #64748b;
+		margin-top: 0.5rem;
+	}
+
+	:global(.profile-image-group) {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	:global(.profile-image-container) {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+	}
+
+	:global(.profile-image-preview) {
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		background-color: #f1f5f9;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		margin-bottom: 1rem;
+		border: 2px dashed #cbd5e1;
+		background-size: cover;
+		background-position: center;
+	}
+
+	:global(.profile-image-placeholder) {
+		color: #94a3b8;
+	}
+
+	:global(.profile-image-input) {
+		display: none;
+	}
+
+	:global(.profile-image-button) {
+		background-color: #f1f5f9;
+		color: #475569;
+		border: none;
+		padding: 0.5rem 1rem;
+		font-size: 0.9rem;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	:global(.profile-image-button:hover) {
+		background-color: #e2e8f0;
+	}
+
+	:global(.template-selection) {
+		margin-top: 2rem;
 	}
 
 	:global(.template-grid) {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-		gap: 1rem;
-		margin-top: 0.5rem;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 1.5rem;
+		margin-top: 1rem;
 	}
 
 	:global(.template-card) {
-		border: 2px solid #eee;
-		border-radius: 6px;
+		border: 2px solid #e2e8f0;
+		border-radius: 10px;
 		overflow: hidden;
 		cursor: pointer;
 		transition: all 0.3s ease;
+		position: relative;
+		background-color: #fff;
 	}
 
 	:global(.template-card:hover) {
-		transform: translateY(-3px);
-		box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+		transform: translateY(-5px);
+		box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+		border-color: #cbd5e1;
 	}
 
 	:global(.template-card.selected) {
-		border-color: #2196f3;
-		box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+		border-color: #2563eb;
+		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 	}
 
 	:global(.template-preview) {
-		background-color: #f5f5f5;
-		height: 150px;
+		background-color: #f8fafc;
+		height: 140px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		border-bottom: 1px solid #e2e8f0;
 	}
 
 	:global(.preview-placeholder) {
-		color: #999;
+		color: #64748b;
 		font-weight: 600;
 		text-align: center;
+		padding: 0 1rem;
 	}
 
 	:global(.template-info) {
@@ -105,91 +206,160 @@ import BonusPageGenerator from '../components/BonusPageGenerator';
 	:global(.template-info h3) {
 		margin: 0 0 0.5rem 0;
 		font-size: 1.1rem;
-		color: #333;
+		color: #1e293b;
 	}
 
 	:global(.template-info p) {
 		margin: 0;
 		font-size: 0.9rem;
-		color: #666;
+		color: #64748b;
+		line-height: 1.4;
+	}
+
+	:global(.template-selected-indicator) {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		background-color: #2563eb;
+		color: white;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	:global(.generate-button) {
-		background-color: #4caf50;
+		background-color: #2563eb;
 		color: white;
 		border: none;
-		padding: 0.75rem 1.5rem;
-		font-size: 1rem;
+		padding: 1rem 2rem;
+		font-size: 1.1rem;
 		font-weight: 600;
-		border-radius: 4px;
+		border-radius: 8px;
 		cursor: pointer;
 		width: 100%;
 		transition: background-color 0.3s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		margin-top: 2rem;
 	}
 
 	:global(.generate-button:hover) {
-		background-color: #3d8b40;
+		background-color: #1d4ed8;
 	}
 
 	:global(.error-message) {
-		background-color: #ffebee;
-		color: #c62828;
-		padding: 0.75rem;
-		border-radius: 4px;
+		background-color: #fee2e2;
+		color: #b91c1c;
+		padding: 1rem;
+		border-radius: 8px;
 		margin-bottom: 1.5rem;
-		border-left: 4px solid #c62828;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 	}
 
 	:global(.result-container) {
-		margin-top: 2rem;
-		padding-top: 2rem;
-		border-top: 1px solid #eee;
+		margin-top: 3rem;
+		padding: 2rem;
+		border-radius: 10px;
+		background-color: #f8fafc;
+		border: 1px solid #e2e8f0;
 	}
 
-	:global(.result-container h2) {
-		color: #4caf50;
+	:global(.result-header) {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 1.5rem;
+		color: #15803d;
+	}
+
+	:global(.result-header h2) {
+		color: #15803d;
 		font-size: 1.5rem;
-		margin-bottom: 1rem;
+		margin: 0;
 	}
 
 	:global(.url-display) {
 		display: flex;
-		margin-bottom: 1rem;
+		margin-bottom: 1.5rem;
 	}
 
 	:global(.copy-button) {
-		background-color: #2196f3;
+		background-color: #2563eb;
 		color: white;
 		border: none;
-		padding: 0.75rem 1rem;
+		padding: 0 1.25rem;
 		font-weight: 600;
 		cursor: pointer;
-		border-top-right-radius: 4px;
-		border-bottom-right-radius: 4px;
+		border-top-right-radius: 8px;
+		border-bottom-right-radius: 8px;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	:global(.url-display .form-control) {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
+		border-right: none;
 	}
 
-	:global(.preview-link) {
-		text-align: center;
+	:global(.action-buttons) {
+		display: flex;
+		gap: 1rem;
 		margin-top: 1.5rem;
 	}
 
-	:global(.preview-link a) {
-		display: inline-block;
-		background-color: #f5f5f5;
-		color: #333;
-		text-decoration: none;
-		padding: 0.75rem 1.5rem;
-		border-radius: 4px;
+	:global(.preview-button, .settings-button) {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1rem;
+		border-radius: 8px;
 		font-weight: 600;
-		transition: all 0.3s ease;
+		text-decoration: none;
+		transition: all 0.2s ease;
 	}
 
-	:global(.preview-link a:hover) {
-		background-color: #e0e0e0;
+	:global(.preview-button) {
+		background-color: #f1f5f9;
+		color: #334155;
+	}
+
+	:global(.preview-button:hover) {
+		background-color: #e2e8f0;
+	}
+
+	:global(.settings-button) {
+		background-color: #f8fafc;
+		color: #64748b;
+		border: 1px solid #e2e8f0;
+	}
+
+	:global(.settings-button:hover) {
+		background-color: #f1f5f9;
+	}
+
+	@media (max-width: 768px) {
+		:global(.form-columns) {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+
+		:global(.template-grid) {
+			grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		}
+
+		:global(.action-buttons) {
+			flex-direction: column;
+		}
 	}
 </style>
