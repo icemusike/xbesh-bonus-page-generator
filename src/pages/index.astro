@@ -1,0 +1,195 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BonusPageGenerator from '../components/BonusPageGenerator';
+---
+
+<Layout title="JVZoo Affiliate Bonus Page Generator">
+	<main>
+		<BonusPageGenerator client:load />
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 100%;
+		max-width: 1000px;
+		color: #333;
+		font-size: 16px;
+		line-height: 1.6;
+	}
+
+	/* Generator Styles */
+	:global(.generator-container) {
+		background-color: white;
+		border-radius: 8px;
+		padding: 2rem;
+		box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+	}
+
+	:global(.generator-container h1) {
+		color: #ff5722;
+		font-size: 2rem;
+		margin-bottom: 1rem;
+		text-align: center;
+	}
+
+	:global(.intro) {
+		text-align: center;
+		margin-bottom: 2rem;
+		color: #666;
+	}
+
+	:global(.form-group) {
+		margin-bottom: 1.5rem;
+	}
+
+	:global(label) {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 600;
+	}
+
+	:global(.form-control) {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 1rem;
+	}
+
+	:global(.template-grid) {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+		gap: 1rem;
+		margin-top: 0.5rem;
+	}
+
+	:global(.template-card) {
+		border: 2px solid #eee;
+		border-radius: 6px;
+		overflow: hidden;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	:global(.template-card:hover) {
+		transform: translateY(-3px);
+		box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+	}
+
+	:global(.template-card.selected) {
+		border-color: #2196f3;
+		box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+	}
+
+	:global(.template-preview) {
+		background-color: #f5f5f5;
+		height: 150px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	:global(.preview-placeholder) {
+		color: #999;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	:global(.template-info) {
+		padding: 1rem;
+	}
+
+	:global(.template-info h3) {
+		margin: 0 0 0.5rem 0;
+		font-size: 1.1rem;
+		color: #333;
+	}
+
+	:global(.template-info p) {
+		margin: 0;
+		font-size: 0.9rem;
+		color: #666;
+	}
+
+	:global(.generate-button) {
+		background-color: #4caf50;
+		color: white;
+		border: none;
+		padding: 0.75rem 1.5rem;
+		font-size: 1rem;
+		font-weight: 600;
+		border-radius: 4px;
+		cursor: pointer;
+		width: 100%;
+		transition: background-color 0.3s ease;
+	}
+
+	:global(.generate-button:hover) {
+		background-color: #3d8b40;
+	}
+
+	:global(.error-message) {
+		background-color: #ffebee;
+		color: #c62828;
+		padding: 0.75rem;
+		border-radius: 4px;
+		margin-bottom: 1.5rem;
+		border-left: 4px solid #c62828;
+	}
+
+	:global(.result-container) {
+		margin-top: 2rem;
+		padding-top: 2rem;
+		border-top: 1px solid #eee;
+	}
+
+	:global(.result-container h2) {
+		color: #4caf50;
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	:global(.url-display) {
+		display: flex;
+		margin-bottom: 1rem;
+	}
+
+	:global(.copy-button) {
+		background-color: #2196f3;
+		color: white;
+		border: none;
+		padding: 0.75rem 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		border-top-right-radius: 4px;
+		border-bottom-right-radius: 4px;
+	}
+
+	:global(.url-display .form-control) {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	:global(.preview-link) {
+		text-align: center;
+		margin-top: 1.5rem;
+	}
+
+	:global(.preview-link a) {
+		display: inline-block;
+		background-color: #f5f5f5;
+		color: #333;
+		text-decoration: none;
+		padding: 0.75rem 1.5rem;
+		border-radius: 4px;
+		font-weight: 600;
+		transition: all 0.3s ease;
+	}
+
+	:global(.preview-link a:hover) {
+		background-color: #e0e0e0;
+	}
+</style>

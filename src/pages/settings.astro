@@ -1,0 +1,363 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Bonus Page Generator Settings">
+	<main>
+		<div class="settings-container">
+			<h1>Settings</h1>
+			
+			<form id="settingsForm" class="settings-form">
+				<div class="form-group">
+					<label for="emailAddress">Your Email Address:</label>
+					<input 
+						type="email" 
+						id="emailAddress" 
+						class="form-control" 
+						placeholder="email@example.com"
+					/>
+					<p class="help-text">This email will be shown on bonus pages for customers to contact you.</p>
+				</div>
+				
+				<div class="form-group">
+					<label for="defaultTemplate">Default Template:</label>
+					<select id="defaultTemplate" class="form-control">
+						<option value="template1">Software Product Bonus</option>
+						<option value="template2">Course & Training Bonus</option>
+						<option value="template3">Ecommerce Bonus</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="customBranding">Custom Branding:</label>
+					<div class="color-pickers">
+						<div class="color-picker">
+							<span>Primary Color:</span>
+							<input type="color" id="primaryColor" value="#ff5722" />
+						</div>
+						<div class="color-picker">
+							<span>Secondary Color:</span>
+							<input type="color" id="secondaryColor" value="#2196f3" />
+						</div>
+						<div class="color-picker">
+							<span>Button Color:</span>
+							<input type="color" id="buttonColor" value="#4caf50" />
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="customLogo">Custom Logo:</label>
+					<input type="file" id="customLogo" class="form-control" accept="image/*" />
+					<p class="help-text">Recommended size: 200x60px. Max file size: 500KB.</p>
+				</div>
+				
+				<div class="form-group">
+					<label for="customBonuses">Custom Bonuses:</label>
+					<div id="bonusesList">
+						<!-- Bonus items will be added here dynamically -->
+						<div class="bonus-item">
+							<input type="text" class="form-control bonus-title" placeholder="Bonus Title" />
+							<textarea class="form-control bonus-description" placeholder="Bonus Description"></textarea>
+							<input type="text" class="form-control bonus-value" placeholder="Value (e.g. $97)" />
+							<button type="button" class="remove-bonus">Remove</button>
+						</div>
+					</div>
+					<button type="button" id="addBonus" class="add-bonus">+ Add Another Bonus</button>
+				</div>
+				
+				<div class="form-group">
+					<label for="disclaimerText">Custom Disclaimer:</label>
+					<textarea 
+						id="disclaimerText" 
+						class="form-control" 
+						rows="3"
+						placeholder="Enter your custom disclaimer text here..."
+					></textarea>
+					<p class="help-text">This text will appear below the CTA button on your bonus pages.</p>
+				</div>
+				
+				<button type="submit" class="save-button">Save Settings</button>
+			</form>
+			
+			<div id="settingsSaved" class="settings-saved hidden">
+				<p>✅ Your settings have been saved successfully!</p>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<script>
+	// Get the form element
+	const settingsForm = document.getElementById('settingsForm');
+	const settingsSaved = document.getElementById('settingsSaved');
+	const bonusesList = document.getElementById('bonusesList');
+	const addBonusButton = document.getElementById('addBonus');
+	
+	// Function to create a new bonus item
+	function createBonusItem(title = '', description = '', value = '') {
+		const bonusItem = document.createElement('div');
+		bonusItem.className = 'bonus-item';
+		
+		bonusItem.innerHTML = `
+			<input type="text" class="form-control bonus-title" placeholder="Bonus Title" value="${title}" />
+			<textarea class="form-control bonus-description" placeholder="Bonus Description">${description}</textarea>
+			<input type="text" class="form-control bonus-value" placeholder="Value (e.g. $97)" value="${value}" />
+			<button type="button" class="remove-bonus">Remove</button>
+		`;
+		
+		// Add event listener to remove button
+		bonusItem.querySelector('.remove-bonus').addEventListener('click', function() {
+			bonusItem.remove();
+		});
+		
+		return bonusItem;
+	}
+	
+	// Add event listener to add bonus button
+	addBonusButton.addEventListener('click', function() {
+		bonusesList.appendChild(createBonusItem());
+	});
+	
+	// Load saved settings from localStorage
+	document.addEventListener('DOMContentLoaded', () => {
+		const savedSettings = JSON.parse(localStorage.getItem('bonusPageSettings') || '{}');
+		
+		if (savedSettings.emailAddress) {
+			document.getElementById('emailAddress').value = savedSettings.emailAddress;
+		}
+		
+		if (savedSettings.defaultTemplate) {
+			document.getElementById('defaultTemplate').value = savedSettings.defaultTemplate;
+		}
+		
+		if (savedSettings.primaryColor) {
+			document.getElementById('primaryColor').value = savedSettings.primaryColor;
+		}
+		
+		if (savedSettings.secondaryColor) {
+			document.getElementById('secondaryColor').value = savedSettings.secondaryColor;
+		}
+		
+		if (savedSettings.buttonColor) {
+			document.getElementById('buttonColor').value = savedSettings.buttonColor;
+		}
+		
+		if (savedSettings.disclaimerText) {
+			document.getElementById('disclaimerText').value = savedSettings.disclaimerText;
+		}
+		
+		// Load custom bonuses
+		if (savedSettings.customBonuses && savedSettings.customBonuses.length > 0) {
+			// Clear default bonus item
+			bonusesList.innerHTML = '';
+			
+			// Add saved bonuses
+			savedSettings.customBonuses.forEach(bonus => {
+				bonusesList.appendChild(createBonusItem(bonus.title, bonus.description, bonus.value));
+			});
+		}
+	});
+	
+	// Handle form submission
+	settingsForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+		
+		// Get form values
+		const emailAddress = document.getElementById('emailAddress').value;
+		const defaultTemplate = document.getElementById('defaultTemplate').value;
+		const primaryColor = document.getElementById('primaryColor').value;
+		const secondaryColor = document.getElementById('secondaryColor').value;
+		const buttonColor = document.getElementById('buttonColor').value;
+		const disclaimerText = document.getElementById('disclaimerText').value;
+		
+		// Get custom bonuses
+		const customBonuses = [];
+		const bonusItems = document.querySelectorAll('.bonus-item');
+		
+		bonusItems.forEach(item => {
+			const title = item.querySelector('.bonus-title').value;
+			const description = item.querySelector('.bonus-description').value;
+			const value = item.querySelector('.bonus-value').value;
+			
+			if (title || description || value) {
+				customBonuses.push({
+					title,
+					description,
+					value
+				});
+			}
+		});
+		
+		// Save settings to localStorage
+		const settings = {
+			emailAddress,
+			defaultTemplate,
+			primaryColor,
+			secondaryColor,
+			buttonColor,
+			disclaimerText,
+			customBonuses
+		};
+		
+		localStorage.setItem('bonusPageSettings', JSON.stringify(settings));
+		
+		// Show success message
+		settingsSaved.classList.remove('hidden');
+		
+		// Hide success message after 3 seconds
+		setTimeout(() => {
+			settingsSaved.classList.add('hidden');
+		}, 3000);
+	});
+</script>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 100%;
+		max-width: 800px;
+		color: #333;
+		font-size: 16px;
+		line-height: 1.6;
+	}
+	
+	.settings-container {
+		background-color: white;
+		border-radius: 8px;
+		padding: 2rem;
+		box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+	}
+	
+	.settings-container h1 {
+		color: #333;
+		font-size: 1.8rem;
+		margin-bottom: 1.5rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid #eee;
+	}
+	
+	.settings-form {
+		margin-top: 1.5rem;
+	}
+	
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+	
+	label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 600;
+	}
+	
+	.form-control {
+		width: 100%;
+		padding: 0.75rem;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 1rem;
+	}
+	
+	.help-text {
+		font-size: 0.85rem;
+		color: #666;
+		margin-top: 0.5rem;
+	}
+	
+	.color-pickers {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-top: 0.5rem;
+	}
+	
+	.color-picker {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	
+	.color-picker span {
+		font-size: 0.9rem;
+	}
+	
+	.save-button {
+		background-color: #2196f3;
+		color: white;
+		border: none;
+		padding: 0.75rem 1.5rem;
+		font-size: 1rem;
+		font-weight: 600;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+	
+	.save-button:hover {
+		background-color: #1976d2;
+	}
+	
+	.settings-saved {
+		margin-top: 1.5rem;
+		padding: 1rem;
+		background-color: #e8f5e9;
+		border-radius: 4px;
+		text-align: center;
+		color: #2e7d32;
+		font-weight: 600;
+	}
+	
+	.hidden {
+		display: none;
+	}
+	
+	/* Bonus items styling */
+	.bonus-item {
+		background-color: #f5f5f5;
+		padding: 1rem;
+		border-radius: 4px;
+		margin-bottom: 1rem;
+	}
+	
+	.bonus-title, .bonus-description, .bonus-value {
+		margin-bottom: 0.5rem;
+	}
+	
+	.bonus-description {
+		min-height: 80px;
+		resize: vertical;
+	}
+	
+	.remove-bonus {
+		background-color: #f44336;
+		color: white;
+		border: none;
+		padding: 0.5rem 1rem;
+		font-size: 0.9rem;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+	
+	.remove-bonus:hover {
+		background-color: #d32f2f;
+	}
+	
+	.add-bonus {
+		background-color: #9e9e9e;
+		color: white;
+		border: none;
+		padding: 0.5rem 1rem;
+		font-size: 0.9rem;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+		margin-top: 0.5rem;
+	}
+	
+	.add-bonus:hover {
+		background-color: #757575;
+	}
+</style>

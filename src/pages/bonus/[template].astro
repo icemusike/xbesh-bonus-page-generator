@@ -1,0 +1,174 @@
+---
+import BonusPageLayout from '../../layouts/BonusPageLayout.astro';
+
+// Get the template ID from the URL
+const { template } = Astro.params;
+
+// Get the affiliate link and title from the query parameters
+const { link, title } = Astro.url.searchParams;
+
+// Decode the affiliate link and title
+const affiliateLink = link ? decodeURIComponent(link) : '#';
+const pageTitle = title ? decodeURIComponent(title) : 'Exclusive Bonus Offer';
+
+// Validate the template
+const validTemplates = ['template1', 'template2', 'template3'];
+const isValidTemplate = validTemplates.includes(template);
+
+// If the template is not valid, redirect to the home page
+if (!isValidTemplate) {
+  return Astro.redirect('/');
+}
+
+// Template-specific content
+let bonuses = [];
+
+if (template === 'template1') {
+  // Software Product Bonus
+  bonuses = [
+    {
+      title: 'Premium Software Extension Pack',
+      description: 'Get access to our exclusive extension pack with additional features not available anywhere else.',
+      value: '$197'
+    },
+    {
+      title: 'Video Training Series',
+      description: 'Step-by-step video tutorials showing you how to get the most out of this software.',
+      value: '$97'
+    },
+    {
+      title: 'Priority Support',
+      description: 'Get your questions answered quickly with our VIP support channel.',
+      value: '$47/month'
+    }
+  ];
+} else if (template === 'template2') {
+  // Course & Training Bonus
+  bonuses = [
+    {
+      title: 'Private Coaching Call',
+      description: 'Get a 30-minute one-on-one coaching call to help you implement what you learn.',
+      value: '$297'
+    },
+    {
+      title: 'Advanced Strategy Guide',
+      description: 'Exclusive PDF with advanced strategies not covered in the main course.',
+      value: '$97'
+    },
+    {
+      title: 'Templates Bundle',
+      description: 'Ready-to-use templates to help you implement faster.',
+      value: '$67'
+    },
+    {
+      title: 'Private Community Access',
+      description: 'Join our exclusive community of successful students.',
+      value: '$47/month'
+    }
+  ];
+} else if (template === 'template3') {
+  // Ecommerce Bonus
+  bonuses = [
+    {
+      title: 'Exclusive Discount Code',
+      description: 'Get 15% off your next purchase with our special discount code.',
+      value: 'Varies'
+    },
+    {
+      title: 'Product Mastery Guide',
+      description: 'Learn how to get the most out of your purchase with our detailed guide.',
+      value: '$37'
+    },
+    {
+      title: 'Extended Warranty',
+      description: 'Get an additional 6 months of warranty coverage on your purchase.',
+      value: '$49'
+    }
+  ];
+}
+
+// Calculate total bonus value
+const totalValue = bonuses.reduce((total, bonus) => {
+  const value = bonus.value.replace(/[^\d]/g, '');
+  return total + (parseInt(value) || 0);
+}, 0);
+---
+
+<BonusPageLayout title={pageTitle} affiliateLink={affiliateLink}>
+  <div class="bonus-content">
+    <h2>Purchase Through My Link Below To Receive These Exclusive Bonuses!</h2>
+    
+    <p class="total-value">Total Bonus Value: <span class="highlight">${totalValue}+</span></p>
+    
+    <div class="bonuses-container">
+      {bonuses.map((bonus, index) => (
+        <div class="bonus-box">
+          <h3>BONUS #{index + 1}: {bonus.title}</h3>
+          <p>{bonus.description}</p>
+          <p>Value: <span class="bonus-value">{bonus.value}</span></p>
+        </div>
+      ))}
+    </div>
+    
+    <div class="how-to-claim">
+      <h3>How to Claim Your Bonuses:</h3>
+      <ol>
+        <li>Click the "CLAIM YOUR BONUS NOW" button below</li>
+        <li>Complete your purchase through my affiliate link</li>
+        <li>Forward your receipt to <span class="highlight">bonuses@yourdomain.com</span></li>
+        <li>You'll receive access to all bonuses within 24 hours</li>
+      </ol>
+    </div>
+  </div>
+</BonusPageLayout>
+
+<style>
+  .bonus-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .total-value {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+  
+  .highlight {
+    color: #ff5722;
+    font-weight: 700;
+  }
+  
+  .bonuses-container {
+    margin: 2rem 0;
+  }
+  
+  .how-to-claim {
+    background-color: #e8f5e9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+  }
+  
+  .how-to-claim h3 {
+    color: #2e7d32;
+    margin-top: 0;
+  }
+  
+  .how-to-claim ol {
+    margin-left: 1.5rem;
+  }
+  
+  .how-to-claim li {
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .total-value {
+      font-size: 1.2rem;
+    }
+  }
+</style>
