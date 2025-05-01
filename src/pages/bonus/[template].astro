@@ -1,24 +1,23 @@
 ---
 import BonusPageLayout from '../../layouts/BonusPageLayout.astro';
 
-// Get the template ID from the URL
-const { template } = Astro.params;
-
-// Get the affiliate link and title from the query parameters
-const { link, title } = Astro.url.searchParams;
-
-// Decode the affiliate link and title
-const affiliateLink = link ? decodeURIComponent(link) : '#';
-const pageTitle = title ? decodeURIComponent(title) : 'Exclusive Bonus Offer';
-
-// Validate the template
-const validTemplates = ['template1', 'template2', 'template3'];
-const isValidTemplate = validTemplates.includes(template);
-
-// If the template is not valid, redirect to the home page
-if (!isValidTemplate) {
-  return Astro.redirect('/');
+// This function is required for dynamic routes in static site generation
+export function getStaticPaths() {
+  return [
+    { params: { template: 'template1' }, props: { templateName: 'template1' } },
+    { params: { template: 'template2' }, props: { templateName: 'template2' } },
+    { params: { template: 'template3' }, props: { templateName: 'template3' } }
+  ];
 }
+
+// Get the template ID from the props (more reliable than params in static builds)
+const { templateName } = Astro.props;
+const template = templateName;
+
+// In a static site, we can't use query parameters at build time
+// Instead, we'll use placeholder values that will be replaced client-side
+const affiliateLink = '#';
+const pageTitle = 'Exclusive Bonus Offer';
 
 // Template-specific content
 let bonuses = [];
@@ -121,6 +120,32 @@ const totalValue = bonuses.reduce((total, bonus) => {
     </div>
   </div>
 </BonusPageLayout>
+
+<script>
+  // Client-side script to handle query parameters
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const link = urlParams.get('link');
+    const title = urlParams.get('title');
+    
+    // Update the page title if provided
+    if (title) {
+      document.title = decodeURIComponent(title);
+      const h1Elements = document.querySelectorAll('h1.bonus-header');
+      if (h1Elements.length > 0) {
+        h1Elements[0].textContent = decodeURIComponent(title).toUpperCase();
+      }
+    }
+    
+    // Update the affiliate link if provided
+    if (link) {
+      const ctaButtons = document.querySelectorAll('.cta-button');
+      ctaButtons.forEach(button => {
+        button.href = decodeURIComponent(link);
+      });
+    }
+  });
+</script>
 
 <style>
   .bonus-content {
